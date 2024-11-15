@@ -92,6 +92,15 @@ namespace _6502Clone
         }
 
         private void ROL(ref uint_8 operand) {operand = (uint_8)((operand << 1) | (operand >> 7));}
+        private void ROR(ref uint_8 operand) {operand = (uint_8)((operand >> 1) | (operand << 7));}
+        private void SEC(ref uint_8 operand) {ToggleFlagOn(ProcessStatusFlags.C);}
+        private void SED(ref uint_8 operand) {ToggleFlagOn(ProcessStatusFlags.D);}
+        private void SEI(ref uint_8 operand) {ToggleFlagOn(ProcessStatusFlags.I);}
+        private void TAX(ref uint_8 operand) {X = A;}
+        private void TAY(ref uint_8 operand) {Y = A;}
+        private void TSX(ref uint_8 operand) {X = S;}
+        private void TXA(ref uint_8 operand) {A = X;}
+        private void TXS(ref uint_8 operand) {S = X;}
 
         private bool IsFlagSet(ProcessStatusFlags flag)
         {
