@@ -4,7 +4,7 @@ namespace _6502Clone.Bus
 {
     class Bus
     {
-        UInt16 addressValue;
+        ushort addressValue;
         byte dataValue;
 
         public Bus()
@@ -13,9 +13,9 @@ namespace _6502Clone.Bus
             addressValue = 0;
         }
 
-        public UInt16 GetAddressValue() {return addressValue;}
-        public UInt16 GetDataValue() {return dataValue;}
-        public void SetAddressValue(UInt16 value) {addressValue = value;}   
+        public ushort GetAddressValue() {return addressValue;}
+        public ushort GetDataValue() {return dataValue;}
+        public void SetAddressValue(ushort value) {addressValue = value;}   
         public void SetDataValue(byte value) {dataValue = value;}
     }
 }
