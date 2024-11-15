@@ -91,6 +91,8 @@ namespace _6502Clone
             S += 1;
         }
 
+        private void ROL(ref uint_8 operand) {operand = (uint_8)((operand << 1) | (operand >> 7));}
+
         private bool IsFlagSet(ProcessStatusFlags flag)
         {
             return ((P >> (uint_8)flag) & 1) == 1;
