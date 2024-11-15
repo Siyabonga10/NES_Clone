@@ -102,6 +102,20 @@ namespace _6502Clone
         private void TXA(ref uint_8 operand) {A = X;}
         private void TXS(ref uint_8 operand) {S = X;}
 
+        // TODO: Add implementation for the following instructions
+        private void BIT(ref uint_8 operand) {}
+        private void BRK(ref uint_8 operand) {}
+        private void JMP(ref uint_16 operand) {}
+        private void JSR(ref uint_16 operand) {}
+        private void PLA(ref uint_8 operand) {}
+        private void PLP(ref uint_8 operand) {}
+        private void RTI(ref uint_8 operand) {}
+        private void RTS(ref uint_8 operand) {}
+        private void SBC(ref uint_8 operand) {}
+        private void STA(ref uint_8 operand) {}
+        private void STX(ref uint_8 operand) {}
+        private void STY(ref uint_8 operand) {}
+
         private bool IsFlagSet(ProcessStatusFlags flag)
         {
             return ((P >> (uint_8)flag) & 1) == 1;
