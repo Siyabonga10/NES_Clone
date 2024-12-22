@@ -14,7 +14,7 @@ namespace _6502Clone.Bus
         }
 
         public ushort GetAddressValue() {return addressValue;}
-        public ushort GetDataValue() {return dataValue;}
+        public byte GetDataValue() {return dataValue;}
         public void SetAddressValue(ushort value) {addressValue = value;}   
         public void SetDataValue(byte value) {dataValue = value;}
     }
