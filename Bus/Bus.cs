@@ -14,7 +14,7 @@ namespace _6502Clone.Bus
         }
 
         public ushort GetAddressValue() {return addressValue;}
-        public sbyte GetDataValue() {return dataValue;}
+        public ref sbyte GetDataValue() {return ref dataValue;}
         public void SetAddressValue(ushort value) {addressValue = value;}   
         public void SetDataValue(sbyte value) {dataValue = value;}
     }

@@ -265,5 +265,164 @@ namespace _6502Clone
                 ToggleFlagOff(flag);
         }
 
+        /*==================================== Addressing modes =======================================*/
+        private ref sbyte AbsA()
+        {
+            bus_.SetAddressValue(PC);
+            byte addrLow = (byte)bus_.GetDataValue();
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            bus_.SetAddressValue(operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte AbsIndX()
+        {
+            bus_.SetAddressValue(PC);
+            byte addrLow = (byte)(bus_.GetDataValue() + (byte)X);
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            bus_.SetAddressValue(operandAddr);
+            addrLow = (byte)bus_.GetDataValue();
+            operandAddr += 1;
+            bus_.SetAddressValue(operandAddr);
+            addrHigh = (byte)bus_.GetDataValue();
+
+            PC = (ushort)((ushort)addrLow + ((ushort)addrHigh << 8));
+
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte AbsIndAX()
+        {
+            bus_.SetAddressValue(PC);
+            byte addrLow = (byte)(bus_.GetDataValue() + (byte)X);
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            bus_.SetAddressValue(operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte AbsIndAY()
+        {
+            bus_.SetAddressValue(PC);
+            byte addrLow = (byte)(bus_.GetDataValue() + (byte)Y);
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            bus_.SetAddressValue(operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte AbsInd()
+        {
+            bus_.SetAddressValue(PC);
+            byte addrLow = (byte)bus_.GetDataValue();
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            bus_.SetAddressValue(operandAddr);
+            addrLow = (byte)bus_.GetDataValue();
+            operandAddr += 1;
+            bus_.SetAddressValue(operandAddr);
+            addrHigh = (byte)bus_.GetDataValue();
+
+            PC = (ushort)((ushort)addrLow + ((ushort)addrHigh << 8));
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte ACC()
+        {
+            return ref A;
+        } 
+
+        private ref sbyte IMM()
+        {
+            return ref bus_.GetDataValue();
+        } 
+
+
+        private ref sbyte IMP()
+        {
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte PCR()
+        {
+            sbyte offset = bus_.GetDataValue();
+            PC += (ushort)offset;
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte Stack()
+        {
+            sbyte stack = bus_.GetDataValue();
+            ushort operandAddr = (ushort)((1 << 8) + (byte)stack);
+            bus_.SetAddressValue(operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte ZP()
+        {
+            sbyte location = bus_.GetDataValue();
+            ushort operandAddr = (ushort)location;
+            bus_.SetAddressValue(operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte ZPIndxInd()
+        {
+            sbyte location = bus_.GetDataValue();
+            sbyte operandAddr = (sbyte)(location + (byte)X);
+            bus_.SetAddressValue((ushort)operandAddr);
+            ushort addrLow = (ushort)bus_.GetDataValue();
+            operandAddr += 1;
+            bus_.SetAddressValue((ushort)operandAddr);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            PC = (ushort)(addrHigh << 8 + addrLow);
+            return ref bus_.GetDataValue(); 
+        } 
+
+        private ref sbyte ZPIndxX()
+        {
+            sbyte location = bus_.GetDataValue();
+            sbyte operandAddr = (sbyte)(location + (byte)X);
+            bus_.SetAddressValue((ushort)operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte ZPIndxY()
+        {
+            sbyte location = bus_.GetDataValue();
+            sbyte operandAddr = (sbyte)(location + (byte)Y);
+            bus_.SetAddressValue((ushort)operandAddr);
+            return ref bus_.GetDataValue();
+        } 
+
+        private ref sbyte ZPInd()
+        {
+            sbyte location = bus_.GetDataValue();
+            sbyte operandAddr = (sbyte)location;
+            bus_.SetAddressValue((ushort)operandAddr);
+            bus_.SetAddressValue((ushort)operandAddr);
+            ushort addrLow = (ushort)bus_.GetDataValue();
+            operandAddr += 1;
+            bus_.SetAddressValue((ushort)operandAddr);
+            ushort addrHigh = (ushort)bus_.GetDataValue();
+            PC = (ushort)(addrHigh << 8 + addrLow);
+            return ref bus_.GetDataValue();
+        } 
+
+
+
     }
+
 }
