@@ -5,7 +5,7 @@ namespace _6502Clone.Bus
     class Bus
     {
         ushort addressValue;
-        byte dataValue;
+        sbyte dataValue;
 
         public Bus()
         {
@@ -14,8 +14,8 @@ namespace _6502Clone.Bus
         }
 
         public ushort GetAddressValue() {return addressValue;}
-        public byte GetDataValue() {return dataValue;}
+        public sbyte GetDataValue() {return dataValue;}
         public void SetAddressValue(ushort value) {addressValue = value;}   
-        public void SetDataValue(byte value) {dataValue = value;}
+        public void SetDataValue(sbyte value) {dataValue = value;}
     }
 }
