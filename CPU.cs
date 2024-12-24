@@ -312,6 +312,7 @@ namespace _6502Clone
             ushort addrHigh = (ushort)bus_.GetDataValue();
             ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
             bus_.SetAddressValue(operandAddr);
+            PC += 1;
             addrBuffer = operandAddr;
             return ref bus_.GetDataValue();
         } 
@@ -344,6 +345,7 @@ namespace _6502Clone
             ushort addrHigh = (ushort)bus_.GetDataValue();
             ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
             bus_.SetAddressValue(operandAddr);
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
@@ -356,6 +358,7 @@ namespace _6502Clone
             ushort addrHigh = (ushort)bus_.GetDataValue();
             ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
             bus_.SetAddressValue(operandAddr);
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
@@ -385,6 +388,7 @@ namespace _6502Clone
 
         private ref sbyte IMM()
         {
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
@@ -397,14 +401,14 @@ namespace _6502Clone
         private ref sbyte PCR()
         {
             sbyte offset = bus_.GetDataValue();
+            PC += 1;
             PC += (ushort)offset;
             return ref bus_.GetDataValue();
         } 
 
         private ref sbyte Stack()
         {
-            sbyte stack = bus_.GetDataValue();
-            ushort operandAddr = (ushort)((1 << 8) + (byte)stack);
+            ushort operandAddr = (ushort)((1 << 8) + S);
             bus_.SetAddressValue(operandAddr);
             return ref bus_.GetDataValue();
         } 
@@ -414,6 +418,7 @@ namespace _6502Clone
             sbyte location = bus_.GetDataValue();
             ushort operandAddr = (ushort)location;
             bus_.SetAddressValue(operandAddr);
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
@@ -435,6 +440,7 @@ namespace _6502Clone
             sbyte location = bus_.GetDataValue();
             sbyte operandAddr = (sbyte)(location + (byte)X);
             bus_.SetAddressValue((ushort)operandAddr);
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
@@ -443,6 +449,7 @@ namespace _6502Clone
             sbyte location = bus_.GetDataValue();
             sbyte operandAddr = (sbyte)(location + (byte)Y);
             bus_.SetAddressValue((ushort)operandAddr);
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
@@ -457,12 +464,16 @@ namespace _6502Clone
             bus_.SetAddressValue((ushort)operandAddr);
             ushort addrHigh = (ushort)bus_.GetDataValue();
             PC = (ushort)(addrHigh << 8 + addrLow);
+            PC += 1;
             return ref bus_.GetDataValue();
         } 
 
         private ref sbyte ZPIndIndxY()
         {
-            // TODO: IMPLEMENTATION
+            ushort zpAddr = (ushort)bus_.GetDataValue();
+            PC += 1;
+            ushort operandAddr = (ushort)(zpAddr + Y);
+            bus_.SetAddressValue(operandAddr);
             return ref bus_.GetDataValue();
         }
 
