@@ -14,17 +14,17 @@ namespace _6502Clone.Bus
             addressValue = 0;
         }
 
-        public void LoadData(int startingAddress, sbyte[] data)
+        public void LoadData(int startingAddress, byte[] data)
         {
-            foreach(sbyte entry in data)
+            foreach(byte entry in data)
             {
-                RAM[startingAddress] = entry;
+                RAM[startingAddress] = (sbyte)entry;
                 startingAddress += 1;
             }
         }
 
         public ushort GetAddressValue() {return addressValue;}          // Returns a 16 byte value from memory based on the currently set address, little endian format
-        public ref sbyte GetDataValue() {return ref RAM[dataValue];}
+        public ref sbyte GetDataValue() {return ref RAM[addressValue];}
         public void SetAddressValue(ushort value) {addressValue = value;}   
         public void SetDataValue(sbyte value) {dataValue = value;}
     }

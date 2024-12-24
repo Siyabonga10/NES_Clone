@@ -63,12 +63,13 @@ namespace _6502Clone
         }
         // Define cpu instructions 
         private void ADC(ref sbyte operand) {
+            int operandSign = operand * A;
             int result = A + (operand + (P >> (int)ProcessStatusFlags.C & 1));
             A = (sbyte)result;
             ToggleFlag(ProcessStatusFlags.C, result > 0XFF);
             ToggleFlag(ProcessStatusFlags.Z, A == 0);
-            ToggleFlag(ProcessStatusFlags.V, ((A ^ A) & (A ^ operand) & 0x80) == 0);
-            ToggleFlag(ProcessStatusFlags.N, (A >> 7) == 1);
+            ToggleFlag(ProcessStatusFlags.V, operandSign * A < 0);
+            ToggleFlag(ProcessStatusFlags.N, (A & 0x80) == 0x80);
         }
         private void AND(ref sbyte operand) {
             A &= operand;
@@ -478,7 +479,35 @@ namespace _6502Clone
         }
 
 
+        /* =========================================== Instruction Execution Logic ======================================= */
+        ExecutionInfo DecodeNextInstruction()
+        {
+            bus_.SetAddressValue(PC);
+            byte opCode = (byte)bus_.GetDataValue();
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            byte mask = 0b00001111;
+            int row = (opCode & ~mask) >> 4;
+            int col = (opCode & mask);
+            return OpCodeMatrix[row][col];
+        }
 
+        void ExecuteInstruction(ExecutionInfo instr)
+        {
+            // TODO: Account for clock cycles
+            var instruction = instr.instruction;
+            var addressingMode = instr.addressingMode;
+            instruction(ref addressingMode());
+        }
+        
+        public void Run()
+        {
+            while(true)
+            {
+                var instruction = DecodeNextInstruction();
+                ExecuteInstruction(instruction);
+            }
+        }
     }
 
 }
