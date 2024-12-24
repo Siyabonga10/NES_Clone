@@ -65,7 +65,7 @@ namespace _6502Clone
             ushort lowerByte = (ushort)bus_.GetDataValue();
             PC += 1;
             bus_.SetAddressValue(PC);
-            ushort upperByte = (ushort)(bus_.GetDataValue() << 4);
+            ushort upperByte = (ushort)(bus_.GetDataValue() << 8);
             PC = (ushort)(upperByte + lowerByte);  
         }
         // Define cpu instructions 
@@ -89,14 +89,14 @@ namespace _6502Clone
             ToggleFlag(ProcessStatusFlags.Z, operand == 0);
             ToggleFlag(ProcessStatusFlags.N, (operand >> 7) == 1);
         }
-        private void BCC(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.C)) PC = (ushort)(PC + operand);}
-        private void BCS(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.C)) PC = (ushort)(PC + operand);}
-        private void BEQ(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.Z)) PC = (ushort)(PC + operand);}
-        private void BMI(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.N)) PC = (ushort)(PC + operand);}
-        private void BNE(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.Z)) PC = (ushort)(PC + operand);}
-        private void BPL(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.N)) PC = (ushort)(PC + operand);}
-        private void BVC(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.V)) PC = (ushort)(PC + operand + 2);}
-        private void BVS(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.V)) PC = (ushort)(PC + operand);}
+        private void BCC(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.C)) PC = addrBuffer;}
+        private void BCS(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.C)) PC = addrBuffer;}
+        private void BEQ(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.Z)) PC = addrBuffer;}
+        private void BMI(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.N)) PC = addrBuffer;}
+        private void BNE(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.Z)) PC = addrBuffer;}
+        private void BPL(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.N)) PC = addrBuffer;}
+        private void BVC(ref sbyte operand) {if(!IsFlagSet(ProcessStatusFlags.V)) PC = (ushort)(addrBuffer + 2);}
+        private void BVS(ref sbyte operand) {if(IsFlagSet(ProcessStatusFlags.V)) PC = addrBuffer;}
 
         private void CLC(ref sbyte operand) {ToggleFlagOff(ProcessStatusFlags.C);}
         private void CLD(ref sbyte operand) {ToggleFlagOff(ProcessStatusFlags.D);}
@@ -410,7 +410,7 @@ namespace _6502Clone
         {
             sbyte offset = bus_.GetDataValue();
             PC += 1;
-            PC += (ushort)offset;
+            addrBuffer = (ushort)(PC + offset);
             return ref bus_.GetDataValue();
         } 
 
