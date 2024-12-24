@@ -6,12 +6,14 @@ namespace _6502Clone.Bus
     {
         ushort addressValue;
         sbyte dataValue;
-        readonly sbyte[] RAM = new sbyte[2^16];
+        readonly sbyte[] RAM = new sbyte[(int)System.Math.Pow(2, 16)];
 
         public Bus()
         {
             dataValue = 0;
             addressValue = 0;
+            RAM[0xFFFC] = 0x00;
+            RAM[0xFFFD] = -0x80;
         }
 
         public void LoadData(int startingAddress, byte[] data)

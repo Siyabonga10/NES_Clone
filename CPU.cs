@@ -57,9 +57,16 @@ namespace _6502Clone
      ];
         }
 
-        private void BootSequence()
+        public void Boot()
         {
-            PC = 0x000;
+            S = 0xFF;
+            PC = 0xFFFC;
+            bus_.SetAddressValue(PC);
+            ushort lowerByte = (ushort)bus_.GetDataValue();
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort upperByte = (ushort)(bus_.GetDataValue() << 4);
+            PC = (ushort)(upperByte + lowerByte);  
         }
         // Define cpu instructions 
         private void ADC(ref sbyte operand) {
