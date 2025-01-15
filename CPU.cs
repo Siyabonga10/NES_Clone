@@ -1,7 +1,7 @@
 using uint_16 = System.UInt16;
 using ExternalBus = _6502Clone.Bus.Bus;
 
- delegate void Instruction(ref sbyte operand);
+delegate void Instruction(ref sbyte operand);
 delegate ref sbyte AddressingMode();
 
 readonly struct ExecutionInfo(Instruction inst, AddressingMode addrMode, byte clockCycles)
