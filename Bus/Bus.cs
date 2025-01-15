@@ -8,10 +8,11 @@ namespace _6502Clone.Bus
     {
         ushort addressValue;
         sbyte dataValue;
-        readonly sbyte[] RAM = new sbyte[(int)System.Math.Pow(2, 16)];
+        readonly sbyte[] RAM = new sbyte[(int)Math.Pow(2, 16)];
 
         private readonly List<BusReadable> readCallbacks;    
         private readonly List<BusWritable> writeCallbacks;
+        private sbyte tmpBuffer;
 
         public Bus()
         {
@@ -38,8 +39,34 @@ namespace _6502Clone.Bus
         public void RegisterForWrites(BusWritable callback){ writeCallbacks.Add(callback);}
 
         public ushort GetAddressValue() {return addressValue;}          // Returns a 16 byte value from memory based on the currently set address, little endian format
-        public ref sbyte GetDataValue() {return ref RAM[addressValue];}
+        public ref sbyte GetDataValue() {
+            if(addressValue < 0x8000)
+            {
+                return ref RAM[addressValue];
+            }
+
+            foreach (BusReadable readCallback in readCallbacks)
+            {
+                if(readCallback(addressValue) is not null)
+                {
+                    tmpBuffer = (sbyte)readCallback(addressValue);
+                    return ref tmpBuffer;
+                }
+            } 
+            
+            return ref tmpBuffer;
+        }
         public void SetAddressValue(ushort value) {addressValue = value;}   
-        public void SetDataValue(sbyte value) {dataValue = value;}
+        public void SetDataValue(sbyte value) {
+            if(addressValue < 0x8000)
+            {
+                RAM[addressValue] = value;
+                return;
+            }
+            foreach(BusWritable writeCallback in writeCallbacks)
+            {
+                writeCallback(addressValue, value);
+            }
+        }
     }
 }

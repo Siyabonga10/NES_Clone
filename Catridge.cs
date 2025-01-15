@@ -18,13 +18,13 @@ namespace _6502Clone
 
         public sbyte? Read(ushort addr)
         {
-            ushort? translatedAddr = mapper.translateAddr(addr);
+            ushort? translatedAddr = mapper.TranslateAddr(addr);
             return translatedAddr is null ? null: (sbyte) mem[(int)translatedAddr];
         }
 
         public void Write(ushort addr, sbyte value)
         {
-            ushort? translatedAddr = mapper.translateAddr(addr);
+            ushort? translatedAddr = mapper.TranslateAddr(addr);
             if(translatedAddr is null) return;
             mem[(int)translatedAddr] = (byte)value;
         }
