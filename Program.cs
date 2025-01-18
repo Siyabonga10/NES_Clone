@@ -2,6 +2,7 @@
 
 namespace _6502Clone
 {
+    using _6502;
     using _6502Clone;
     class Program
     {
@@ -9,6 +10,7 @@ namespace _6502Clone
         {
            Bus.Bus myBus = new();
            CPU myCPU = new(ref myBus);
+           PPU myPPU = new(ref myBus);
            Catridge test = new("D:\\nes\\6502Clone\\test_roms\\01-implied.nes", ref myBus);
            myCPU.Boot();
            myCPU.Run();

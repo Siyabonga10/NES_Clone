@@ -550,7 +550,7 @@ namespace _6502Clone
             {
                 var instruction = DecodeNextInstruction();
                 ExecuteInstruction(instruction);
-            }
+            +}
         }
     }
 
