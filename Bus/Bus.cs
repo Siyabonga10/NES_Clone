@@ -2,12 +2,12 @@ using System;
 
 namespace _6502Clone.Bus
 {
-    delegate sbyte? BusReadable(ushort addr);
+    delegate byte? BusReadable(ushort addr);
     delegate void BusWritable(ushort addr, sbyte value);
     class Bus
     {
         ushort addressValue;
-        sbyte dataValue;
+
         readonly sbyte[] RAM = new sbyte[(int)Math.Pow(2, 16)];
 
         private readonly List<BusReadable> readCallbacks;    
@@ -18,11 +18,7 @@ namespace _6502Clone.Bus
         {
             readCallbacks = [];
             writeCallbacks = [];
-
-            dataValue = 0;
             addressValue = 0;
-            RAM[0xFFFC] = 0x00;
-            RAM[0xFFFD] = -0x80;
         }
 
         public void LoadData(int startingAddress, byte[] data)
@@ -38,9 +34,9 @@ namespace _6502Clone.Bus
 
         public void RegisterForWrites(BusWritable callback){ writeCallbacks.Add(callback);}
 
-        public ushort GetAddressValue() {return addressValue;}          // Returns a 16 byte value from memory based on the currently set address, little endian format
+        public ushort GetAddressValue() {return addressValue;}  
         public ref sbyte GetDataValue() {
-            if(addressValue < 0x8000)
+            if(addressValue < 0x2000)
             {
                 return ref RAM[addressValue];
             }
@@ -49,7 +45,7 @@ namespace _6502Clone.Bus
             {
                 if(readCallback(addressValue) is not null)
                 {
-                    tmpBuffer = (sbyte)readCallback(addressValue);
+                    tmpBuffer = (sbyte)(byte)readCallback(addressValue);
                     return ref tmpBuffer;
                 }
             } 
@@ -58,9 +54,9 @@ namespace _6502Clone.Bus
         }
         public void SetAddressValue(ushort value) {addressValue = value;}   
         public void SetDataValue(sbyte value) {
-            if(addressValue < 0x8000)
+            if(addressValue < 0x2000)
             {
-                RAM[addressValue] = value;
+                RAM[addressValue % 0x0800] = value;
                 return;
             }
             foreach(BusWritable writeCallback in writeCallbacks)

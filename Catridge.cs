@@ -16,10 +16,10 @@ namespace _6502Clone
             bus.RegisterForWrites(Write);
         }
 
-        public sbyte? Read(ushort addr)
+        public byte? Read(ushort addr)
         {
             ushort? translatedAddr = mapper.TranslateAddr(addr);
-            return translatedAddr is null ? null: (sbyte) mem[(int)translatedAddr];
+            return translatedAddr is null ? null: (byte) mem[(int)translatedAddr];
         }
 
         public void Write(ushort addr, sbyte value)

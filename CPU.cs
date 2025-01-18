@@ -36,12 +36,12 @@ namespace _6502Clone
             OpCodeMatrix = [
                 [new(BRK, Stack, 0), new(ORA, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ORA, ZP, 0), new(ASL, ZP, 0), new(NOP, IMP, 0), new(PHP, Stack, 0), new(ORA, IMM, 0), new(ASL, ACC, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ORA, Abs, 0), new(ASL, Abs, 0), new(NOP, IMP, 0)],
                 [new(BPL, PCR, 0), new(ORA, ZPIndIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ORA, ZPIndxX, 0), new(ASL, ZPIndxX, 0), new(NOP, IMP, 0), new(CLC, IMP, 0), new(ORA, AbsIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ORA, AbsIndxX, 0), new(ASL, AbsIndxX, 0), new(NOP, IMP, 0)],
-                [new(NOP, IMP, 0), new(AND, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(BIT, ZP, 0), new(AND, ZP, 0), new(ROL, ZP, 0), new(NOP, IMP, 0), new(PLP, Stack, 0), new(AND, IMM, 0), new(ROL, ACC, 0), new(NOP, IMP, 0), new(BIT, Abs, 0), new(AND, Abs, 0), new(ROL, Abs, 0), new(NOP, IMP, 0)],
+                [new(JSR, IMP, 0), new(AND, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(BIT, ZP, 0), new(AND, ZP, 0), new(ROL, ZP, 0), new(NOP, IMP, 0), new(PLP, Stack, 0), new(AND, IMM, 0), new(ROL, ACC, 0), new(NOP, IMP, 0), new(BIT, Abs, 0), new(AND, Abs, 0), new(ROL, Abs, 0), new(NOP, IMP, 0)],
                 [new(BMI, PCR, 0), new(AND, ZPIndIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(AND, ZPIndxX, 0), new(ROL, ZPIndxX, 0), new(NOP, IMP, 0), new(SEC, IMP, 0), new(AND, AbsIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(AND, AbsIndxX, 0), new(ROL, AbsIndxX, 0), new(NOP, IMP, 0)],
 
                 [new(RTI, Stack, 0), new(EOR, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(EOR, ZP, 0), new(LSR, ZP, 0), new(NOP, IMP, 0), new(PHA, Stack, 0), new(EOR, IMM, 0), new(LSR, Abs, 0), new(NOP, IMP, 0), new(JMP, Abs, 0), new(EOR, Abs, 0), new(LSR, Abs, 0), new(NOP, IMP, 0)],
                 [new(BVC, PCR, 0), new(EOR, ZPIndIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(EOR, ZPIndxX, 0), new(LSR, ZPIndxX, 0), new(NOP, IMP, 0), new(CLI, IMP, 0), new(EOR, AbsIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(EOR, AbsIndxX, 0), new(LSR, AbsIndxX, 0), new(NOP, IMP, 0)],
-                [new(RTS, Stack, 0), new(ADC, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ADC, ZP, 0), new(ROR, ACC, 0), new(NOP, IMP, 0), new(PLA, Stack, 0), new(ADC, IMM, 0), new(ROR, Abs, 0), new(NOP, IMP, 0), new(JMP, AbsInd, 0), new(ADC, Abs, 0), new(ROR, Abs, 0), new(NOP, IMP, 0)],
+                [new(RTS, IMP, 0), new(ADC, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ADC, ZP, 0), new(ROR, ACC, 0), new(NOP, IMP, 0), new(PLA, Stack, 0), new(ADC, IMM, 0), new(ROR, Abs, 0), new(NOP, IMP, 0), new(JMP, AbsInd, 0), new(ADC, Abs, 0), new(ROR, Abs, 0), new(NOP, IMP, 0)],
                 [new(BVS, PCR, 0), new(ADC, ZPIndIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ADC, ZPIndxX, 0), new(ROR, ZPIndxX, 0), new(NOP, IMP, 0), new(SEI, IMP, 0), new(ADC, AbsIndxY, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(ADC, AbsIndxX, 0), new(ROR, AbsIndxX, 0), new(NOP, IMP, 0)],
                 
                 [new(NOP, IMP, 0), new(STA, ZPIndxInd, 0), new(NOP, IMP, 0), new(NOP, IMP, 0), new(STY, ZP, 0), new(STA, ZP, 0), new(STX, ZP, 0), new(NOP, IMP, 0), new(DEY, IMP, 0), new(NOP, IMP, 0), new(TXA, IMP, 0), new(NOP, IMP, 0), new(STY, Abs, 0), new(STA, Abs, 0), new(STX, Abs, 0), new(NOP, IMP, 0)],
@@ -60,11 +60,12 @@ namespace _6502Clone
         public void Boot()
         {
             S = 0xFF;
-            PC = 0xFFFC;
-            bus_.SetAddressValue(PC);
-            ushort lowerByte = (ushort)bus_.GetDataValue();
-            PC += 1;
-            bus_.SetAddressValue(PC);
+            ushort tmpAddr;
+            tmpAddr = 0xFFFC;
+            bus_.SetAddressValue(tmpAddr);
+            ushort lowerByte = (ushort)(byte)bus_.GetDataValue();
+            tmpAddr += 1;
+            bus_.SetAddressValue(tmpAddr);
             ushort upperByte = (ushort)(bus_.GetDataValue() << 8);
             PC = (ushort)(upperByte + lowerByte);  
         }
@@ -236,7 +237,7 @@ namespace _6502Clone
         private void TSX(ref sbyte operand) {
             X = (sbyte)S;
             ToggleFlag(ProcessStatusFlags.Z, X == 0);
-            ToggleFlag(ProcessStatusFlags.N, (X & 0x80) == 1);
+            ToggleFlag(ProcessStatusFlags.N, (X & 0x80) != 0);
         }
         private void TXA(ref sbyte operand) {
             A = X;
@@ -250,8 +251,6 @@ namespace _6502Clone
         }
         private void TXS(ref sbyte operand) {
             S = (byte)X;
-            ToggleFlag(ProcessStatusFlags.Z, S == 0);
-            ToggleFlag(ProcessStatusFlags.N, (S & 0x80) == 1);
         }
 
         // TODO: Add implementation for the following instructions
@@ -265,7 +264,29 @@ namespace _6502Clone
         private void JMP(ref sbyte operand) {
             PC = addrBuffer;
         }
-        private void JSR(ref uint_16 operand) {}
+        private void JSR(ref sbyte operand) {
+            bus_.SetAddressValue(PC);
+            byte addrLow = (byte)bus_.GetDataValue();
+            PC += 1;
+            bus_.SetAddressValue(PC);
+            ushort addrHigh = (ushort)(byte)bus_.GetDataValue();
+            addrHigh = (ushort)(addrHigh << 8);
+            ushort operandAddr = (ushort)(addrLow + addrHigh);
+            bus_.SetAddressValue(operandAddr);
+            // Store the PC onto the stack
+            sbyte pcLow = (sbyte)(PC & 0xFF);
+            sbyte pcHigh = (sbyte)(PC >> 8);
+
+            bus_.SetAddressValue((ushort)(0x100 + S));
+            bus_.SetDataValue(pcHigh);
+            S--;
+            bus_.SetAddressValue((ushort)(0x100 + S));
+            bus_.SetDataValue(pcLow);
+            S--;
+
+            PC = operandAddr;
+
+        }
         private void PLP(ref sbyte operand) {
             S += 1;
             bus_.SetAddressValue(S);
@@ -273,7 +294,20 @@ namespace _6502Clone
 
         }
         private void RTI(ref sbyte operand) {}
-        private void RTS(ref sbyte operand) {}
+        private void RTS(ref sbyte operand) {
+            S++;
+            bus_.SetAddressValue((ushort)(0x100+S));
+            byte addrLow = (byte)bus_.GetDataValue();
+
+            S++;
+            bus_.SetAddressValue((ushort)(0x100 + S));
+            ushort addrHigh = (ushort)(byte)bus_.GetDataValue();
+
+            addrHigh = (ushort)(addrHigh << 8);
+            ushort operandAddr = (ushort)(addrLow + addrHigh);
+            PC = (ushort)(operandAddr + 1);
+
+        }
         private void SBC(ref sbyte operand) {
             A = (sbyte)(A - operand - ~(int)ProcessStatusFlags.C & 1);
             ToggleFlag(ProcessStatusFlags.C, !(A < 0x00));
@@ -281,7 +315,8 @@ namespace _6502Clone
             ToggleFlag(ProcessStatusFlags.V, ((A ^ A) & (A ^ ~operand) & 0x80) == 0);
             ToggleFlag(ProcessStatusFlags.N, (A >> 7) == 1);
         }
-        private void STA(ref sbyte operand) { operand = A; }
+        private void STA(ref sbyte operand) { 
+            operand = A; }
         private void STX(ref sbyte operand) { operand = X;}
         private void STY(ref sbyte operand) { operand = Y;}
 
@@ -317,8 +352,9 @@ namespace _6502Clone
             byte addrLow = (byte)bus_.GetDataValue();
             PC += 1;
             bus_.SetAddressValue(PC);
-            ushort addrHigh = (ushort)bus_.GetDataValue();
-            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            ushort addrHigh = (ushort)(byte)bus_.GetDataValue();
+            addrHigh = (ushort)(addrHigh << 8);
+            ushort operandAddr = (ushort)(addrLow + addrHigh);
             bus_.SetAddressValue(operandAddr);
             PC += 1;
             addrBuffer = operandAddr;
@@ -351,7 +387,8 @@ namespace _6502Clone
             PC += 1;
             bus_.SetAddressValue(PC);
             ushort addrHigh = (ushort)bus_.GetDataValue();
-            ushort operandAddr = (ushort)(addrLow + addrHigh << 8);
+            addrHigh = (ushort)(addrHigh << 8);
+            ushort operandAddr = (ushort)(addrLow + addrHigh);
             bus_.SetAddressValue(operandAddr);
             PC += 1;
             return ref bus_.GetDataValue();
