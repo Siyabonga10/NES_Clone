@@ -6,12 +6,12 @@ namespace _6502Clone
     {
         private readonly byte[] mem;
         private readonly Mapper mapper;
-        private readonly int catridgeSize;
         public Catridge(string rom_file_path, ref Bus.Bus bus)
         {
             mapper = new Mappper000();
-            mem = File.ReadAllBytes(rom_file_path);
-            catridgeSize = mem.Length;
+            byte[] memBytes = File.ReadAllBytes(rom_file_path);
+            mem = new byte[memBytes.Length + 0x2000]; // Catridge rom + ram
+            Array.Copy(memBytes, 0, mem, 0x2000, memBytes.Length);
             bus.RegisterForReads(Read);
             bus.RegisterForWrites(Write);
         }
@@ -19,7 +19,7 @@ namespace _6502Clone
         public byte? Read(ushort addr)
         {
             ushort? translatedAddr = mapper.TranslateAddr(addr);
-            return translatedAddr is null ? null: (byte) mem[(int)translatedAddr];
+            return translatedAddr is null ? null: mem[(int)translatedAddr];
         }
 
         public void Write(ushort addr, sbyte value)

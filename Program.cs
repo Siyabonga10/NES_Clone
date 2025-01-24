@@ -13,7 +13,7 @@ namespace _6502Clone
            PPU myPPU = new(ref myBus);
            Catridge test = new("D:\\nes\\6502Clone\\test_roms\\01-implied.nes", ref myBus);
            myCPU.Boot();
-           myCPU.Run();
+           myCPU.RunTest();
         }
     }
 }

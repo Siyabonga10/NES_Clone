@@ -7,7 +7,7 @@ namespace _6502
         private readonly byte[] registers;
         public PPU(ref Bus bus)
         {
-            registers = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
+            registers = [0, 0, 0, 0, 0, 0, 0, 0];
             bus.RegisterForReads(Read);
         }
 
@@ -15,7 +15,7 @@ namespace _6502
         {
             if(0x2000 <= addr && addr < 0x3FFF)
             {
-                return registers[addr % 8];
+                return registers[(addr - 0x2000) % 8];
             }
             return null;
         }

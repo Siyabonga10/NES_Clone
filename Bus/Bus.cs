@@ -64,5 +64,23 @@ namespace _6502Clone.Bus
                 writeCallback(addressValue, value);
             }
         }
+        public void Write(ushort addr, sbyte value_)
+        {
+            if (addr < 0x2000)
+            {
+                RAM[addr % 0x0800] = value_;
+                return;
+            }
+            foreach (BusWritable writeCallback in writeCallbacks)
+            {
+                writeCallback(addr, value_);
+            }
+        }
+
+        public sbyte Read(ushort Addr)
+        {
+            SetAddressValue(Addr);
+            return GetDataValue();
+        }
     }
 }

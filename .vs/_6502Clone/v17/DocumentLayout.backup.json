@@ -7,20 +7,24 @@
       "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:cpu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\bus\\bus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:bus\\bus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\catridge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:catridge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\bus\\bus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:bus\\bus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\mappers\\mapper000.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:mappers\\mapper000.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\ppu\\ppu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:ppu\\ppu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|d:\\nes\\6502clone\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD48DD57-4D57-4823-B8E3-28A5EDB22825}|_6502Clone.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,14 +39,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Mapper000.cs",
-              "DocumentMoniker": "D:\\nes\\6502Clone\\Mappers\\Mapper000.cs",
-              "RelativeDocumentMoniker": "Mappers\\Mapper000.cs",
-              "ToolTip": "D:\\nes\\6502Clone\\Mappers\\Mapper000.cs",
-              "RelativeToolTip": "Mappers\\Mapper000.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAANAAAAAAAAAA==",
+              "Title": "PPU.cs",
+              "DocumentMoniker": "D:\\nes\\6502Clone\\PPU\\PPU.cs",
+              "RelativeDocumentMoniker": "PPU\\PPU.cs",
+              "ToolTip": "D:\\nes\\6502Clone\\PPU\\PPU.cs",
+              "RelativeToolTip": "PPU\\PPU.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAIA9wBQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-16T09:19:19.999Z"
+              "WhenOpened": "2025-01-18T06:44:01.5Z"
             },
             {
               "$type": "Document",
@@ -52,46 +56,61 @@
               "RelativeDocumentMoniker": "CPU.cs",
               "ToolTip": "D:\\nes\\6502Clone\\CPU.cs",
               "RelativeToolTip": "CPU.cs",
-              "ViewState": "AgIAAB0CAAAAAAAAAAAUwCYCAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAFsCAAAAAAAAAAA1wGICAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-15T18:47:32.057Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Catridge.cs",
-              "DocumentMoniker": "D:\\nes\\6502Clone\\Catridge.cs",
-              "RelativeDocumentMoniker": "Catridge.cs",
-              "ToolTip": "D:\\nes\\6502Clone\\Catridge.cs",
-              "RelativeToolTip": "Catridge.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-15T18:42:36.051Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Bus.cs",
-              "DocumentMoniker": "D:\\nes\\6502Clone\\Bus\\Bus.cs",
-              "RelativeDocumentMoniker": "Bus\\Bus.cs",
-              "ToolTip": "D:\\nes\\6502Clone\\Bus\\Bus.cs",
-              "RelativeToolTip": "Bus\\Bus.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAASwC8AAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-15T18:38:44.076Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\nes\\6502Clone\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\nes\\6502Clone\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-15T18:35:36.141Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Mapper000.cs",
+              "DocumentMoniker": "D:\\nes\\6502Clone\\Mappers\\Mapper000.cs",
+              "RelativeDocumentMoniker": "Mappers\\Mapper000.cs",
+              "ToolTip": "D:\\nes\\6502Clone\\Mappers\\Mapper000.cs",
+              "RelativeToolTip": "Mappers\\Mapper000.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-16T09:19:19.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Catridge.cs",
+              "DocumentMoniker": "D:\\nes\\6502Clone\\Catridge.cs",
+              "RelativeDocumentMoniker": "Catridge.cs",
+              "ToolTip": "D:\\nes\\6502Clone\\Catridge.cs",
+              "RelativeToolTip": "Catridge.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAArwBMAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-15T18:42:36.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Bus.cs",
+              "DocumentMoniker": "D:\\nes\\6502Clone\\Bus\\Bus.cs",
+              "RelativeDocumentMoniker": "Bus\\Bus.cs",
+              "ToolTip": "D:\\nes\\6502Clone\\Bus\\Bus.cs",
+              "RelativeToolTip": "Bus\\Bus.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAvwC0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-15T18:38:44.076Z",
+              "EditorCaption": ""
             }
           ]
         }
