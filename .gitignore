@@ -3,4 +3,5 @@ bin/
 *.bin
 *.nes*
 *.nes
-.vs/
+.vs/*
+.vs/v17/

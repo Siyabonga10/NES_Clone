@@ -2,7 +2,7 @@ using System;
 
 namespace _6502Clone.Bus
 {
-    delegate byte? BusReadable(ushort addr);
+    delegate byte? Readable(ushort addr);
     delegate void BusWritable(ushort addr, sbyte value);
     class Bus
     {
@@ -10,12 +10,14 @@ namespace _6502Clone.Bus
 
         readonly sbyte[] RAM = new sbyte[(int)Math.Pow(2, 16)];
 
-        private readonly List<BusReadable> readCallbacks;    
+        private readonly List<Readable> readCallbacks;    
         private readonly List<BusWritable> writeCallbacks;
+        private readonly List<Readable> ppuReadCallbacks;
         private sbyte tmpBuffer;
 
         public Bus()
         {
+            ppuReadCallbacks = [];
             readCallbacks = [];
             writeCallbacks = [];
             addressValue = 0;
@@ -30,9 +32,11 @@ namespace _6502Clone.Bus
             }
         }   
 
-        public void RegisterForReads(BusReadable callback) { readCallbacks.Add(callback);}
+        public void RegisterForReads(Readable callback) { readCallbacks.Add(callback);}
 
         public void RegisterForWrites(BusWritable callback){ writeCallbacks.Add(callback);}
+
+        public void RegisterForPPUReads(Readable callback) {ppuReadCallbacks.Add(callback);}
 
         public ushort GetAddressValue() {return addressValue;}  
         public ref sbyte GetDataValue() {
@@ -41,7 +45,7 @@ namespace _6502Clone.Bus
                 return ref RAM[addressValue];
             }
 
-            foreach (BusReadable readCallback in readCallbacks)
+            foreach (Readable readCallback in readCallbacks)
             {
                 if(readCallback(addressValue) is not null)
                 {
@@ -81,6 +85,13 @@ namespace _6502Clone.Bus
         {
             SetAddressValue(Addr);
             return GetDataValue();
+        }
+
+        public sbyte PPU_Read(ushort Addr)
+        {
+            foreach (Readable readCallback in ppuReadCallbacks)
+                return (sbyte)readCallback(Addr);
+            return 0;
         }
     }
 }
