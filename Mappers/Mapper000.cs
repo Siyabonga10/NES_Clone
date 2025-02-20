@@ -8,7 +8,6 @@ namespace _6502Clone
             CHR_OFFSET = 16;
             if ((GetHeaderByte(6) & 2) != 0) CHR_OFFSET += 512;
             CHR_OFFSET += (uint)(0x4000 * GetHeaderByte(4));
-            Console.WriteLine(CHR_OFFSET.ToString());
         }
         public override ushort? TranslateAddr(ushort cpuAddr)
         {

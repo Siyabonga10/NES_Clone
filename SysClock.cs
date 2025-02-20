@@ -15,7 +15,8 @@ namespace _6502Clone
             timer = new Stopwatch();
             tickCallbacks = [];
             //interval = (int)(Stopwatch.Frequency / 9789773);
-            interval = (int)(Stopwatch.Frequency * 0.001);
+            interval = (int)(Stopwatch.Frequency * 0.0000001);
+            Console.WriteLine(interval);
         }
 
         public void RegisterForTicks(Tick tickCallback)

@@ -9,7 +9,6 @@ namespace _6502
 {
     class PPU
     {
-        private readonly byte[] registers;
         bool active;
 
         private int clocksTicks;
@@ -18,9 +17,18 @@ namespace _6502
         private int current_draw_counts;
         private const int CYCLES_PER_DRAW = 8932;
 
-        // VRAM, stores nametables used for rendering the backgrounds and stuff
+        // VRAM and registers
         private byte[] VRAM;
-        private bool reading;
+        private readonly byte[] registers;
+
+        // Handle writes to the ppu addr
+        private ushort PPUADDRVal;
+        bool onLowByte;
+
+        // Handle writes to the scroll buffer
+        private int x_scroll;
+        private int y_scroll;
+        bool onX;
 
         // Define register names
         private const int PPUCONTROL = 0x0000;
@@ -32,6 +40,7 @@ namespace _6502
         private const int PPUADDR = 0x0006;
         private const int PPUDATA = 0x0007;
         private const int OAMDMA = 0x0014;
+        private const int REGISTER_COUNT = 0x08;
 
         // Master color pelette
         private Dictionary<byte, Color> ColorMap;
@@ -42,63 +51,48 @@ namespace _6502
         private const int DISPLAY_SCALE_FACTOR = 3;
         private int current_row;
         private int current_col;
-        private RectangleShape tile;
 
         private const int ROW_LEN = 240;
         private const int COL_LEN = 256;
         private Bus bus_;
 
-        private Stopwatch FPS_timer;
-
         // Testing stuff
         private byte TileIndex;
-        private ushort TileByteAddr;
+        private int tmp = 0;
 
         public PPU(ref Bus bus, ref SysClock clock)
         {
-            TileByteAddr = 0;
+            screen = new RenderWindow(new VideoMode(), "Testing");
+            screen.Close();
+            onX = true;
             TileIndex = 0;
             ColorMap = [];
             bus_ = bus;
-            reading = false;
             VRAM = new byte[0x4000];
-            tile = new(new Vector2f(DISPLAY_SCALE_FACTOR * 8.0f, DISPLAY_SCALE_FACTOR * 8.0f));
-            tile.FillColor = new(0, 0, 0, 255);
             current_col = 0;
             current_row = 0;
-
-            screen = new RenderWindow(new VideoMode(256*DISPLAY_SCALE_FACTOR, 240*DISPLAY_SCALE_FACTOR), "MY NES EMULATOR");
-            screen.KeyPressed += CloseDisplay;
             current_draw_counts = 0;
    
             clock.RegisterForTicks(Tick);
             clocksTicks = 0;
             ready = false;
             active = true;
-            registers = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]; // Exposed to the CPU
+            registers = new byte[8]; // Exposed to the CPU
             bus.RegisterForReads(Read);
-            FPS_timer = new Stopwatch();
+            bus.RegisterForWrites(Write);
             LoadColors();
-            screen.SetActive(false); // Disable the current context, allows another thread to use window later
-
-            // Manually define palletes for testing, MUST BE REMOVED
-            VRAM[0x3F00] = 0x0F;
-            VRAM[0x3F01] = 0x30;
-            VRAM[0x3F02] = 0x30;
-            VRAM[0x3F03] = 0x30;
+            onLowByte = false;
+            PPUADDRVal = 0;
         }
 
-        private void CloseDisplay(object? sender, EventArgs e)
+        public void CloseDisplay(object? sender, EventArgs e)
         {
-            Console.WriteLine(e.ToString());
-            //screen.Close();
-            Console.WriteLine("Logger");
-            //active = false;
+            Console.WriteLine("Closing Game Window");
+            Finish();
         }
 
         public byte? Read(ushort addr)
         {
-            if (reading) return null;
             if(0x2000 <= addr && addr < 0x3FFF)
             {
                 return registers[(addr - 0x2000) % 8];
@@ -106,14 +100,71 @@ namespace _6502
             return null;
         }
 
+        public void Write(ushort addr, sbyte data)
+        {
+            if(0x2000 <= addr && addr < 0x4000)
+            {
+                if (addr == 0x2000 + PPUADDR)
+                {
+                    WritePPUAddr((byte)data);
+                    return;
+                }
+                else if (addr == 0x2000 + PPUDATA)
+                {
+                    WritePPUData((byte)data);
+                    return;
+                }
+                else if (addr == 0x2000 + PPUSCROLL)
+                {
+                    WriteScrollData((byte)data);
+                    return;
+                }
+
+                int index = (addr - 0x2000) % REGISTER_COUNT;
+                registers[index] = (byte)data;
+            }
+        }
+
+        private void WritePPUAddr(byte data)
+        {
+            if(onLowByte)
+            {
+                onLowByte = false;
+                PPUADDRVal &= 0xFF00;
+                PPUADDRVal |= data;
+            }
+            else
+            {
+                onLowByte = true;
+                PPUADDRVal &= 0x00FF;
+                ushort writeData = (ushort)(data & ~0xC0);
+                writeData <<= 8;
+                PPUADDRVal |= writeData;
+            }
+        }
+
+        private void WritePPUData(byte data)
+        {
+            registers[PPUDATA] = data;
+            VRAM[PPUADDRVal] = data;
+            PPUADDRVal += (ushort)(((registers[PPUCONTROL] & 0x04) == 0) ? 1 : 32);
+            PPUADDRVal = (ushort)(PPUADDRVal % 0x4000);
+        }
+
+        private void WriteScrollData(byte data) {
+            if (onX) x_scroll = data;
+            else y_scroll = data;
+            onX = !onX;
+        }
+
         public void RunPPU()
         {
-            FPS_timer.Start();
             screen.Clear(Color.White);
             while (active)
             {
                 if (ready)
                 {
+                    
                     screen.DispatchEvents();
                     DrawBGTile();
                     ready = false;
@@ -135,13 +186,14 @@ namespace _6502
             if (current_draw_counts == 0)
             {
                 registers[PPUSTATUS] |= 0x80;
-
             }
         }
 
         public void InitDisplay()
         {
-            screen.SetActive(true);
+
+            screen = new RenderWindow(new VideoMode(256 * DISPLAY_SCALE_FACTOR, 240 * DISPLAY_SCALE_FACTOR), "MY NES EMULATOR");
+            screen.Closed += CloseDisplay;
         }
 
         private void DrawBGTile()
@@ -152,35 +204,24 @@ namespace _6502
                 if (current_row == (ROW_LEN/8) - 1)
                 {
                     current_row = 0;
-                    
-                    
-                    var tex = GenerateTile();
-                    TileIndex += 1;
-                    var tmp = new Sprite(tex);
-                    
-                    tmp.Position = new Vector2f(100, 100);
-                    screen.Clear();
-                    screen.Draw(tmp);
                     screen.Display();
-                    Console.WriteLine("FPS: " + (1000.0 / FPS_timer.ElapsedMilliseconds).ToString());
-                    FPS_timer.Restart();
+                    screen.Clear();
                     return;
                 }
                 current_row += 1;
                 return;
             }
+            var tex = GenerateTile(current_row*32 + current_col);
+            var tmp = new Sprite(tex);
+
+            int scroll_x = x_scroll + ((registers[PPUCONTROL] & 0x01) == 0 ? 0 : 256);
+            int scroll_y = y_scroll + ((registers[PPUCONTROL] & 0x02) == 0 ? 0 : 240);
+
+            tmp.Position = new Vector2f(current_col * DISPLAY_SCALE_FACTOR * 8 + scroll_x * DISPLAY_SCALE_FACTOR, current_row * DISPLAY_SCALE_FACTOR * 8 + scroll_y * DISPLAY_SCALE_FACTOR);
+            screen.Draw(tmp);
             current_col += 1;
             
         }
-
-        private sbyte ReadCatridgeData(ushort Addr)
-        {
-            reading = true;
-            sbyte value = bus_.PPU_Read(Addr);
-            reading = false;
-            return value;
-        }
-
         private void LoadColors()
         {
             byte[] colorBytes = File.ReadAllBytes(ColorPelettePath);
@@ -197,13 +238,14 @@ namespace _6502
             
         }
 
-        private Texture GenerateTile()
+        private Texture GenerateTile(int index)
         {
             RenderTexture target = new(8*DISPLAY_SCALE_FACTOR, 8*DISPLAY_SCALE_FACTOR);
-            for(int i = 0; i < 8; i++)
-            {
-                byte LSB = (byte)bus_.PPU_Read((ushort)(16 * TileIndex + i));
-                byte MSB = (byte)bus_.PPU_Read((ushort)(16 * TileIndex + i + 8));
+            int patternTableIndex = VRAM[0x2000 + index];
+            for (int i = 0; i < 8; i++)
+            {                
+                byte LSB = (byte)bus_.PPU_Read((ushort)(16 * patternTableIndex + i));
+                byte MSB = (byte)bus_.PPU_Read((ushort)(16 * patternTableIndex + i + 8));
                 RenderTextureRow(MSB, LSB, 7 - i, ref target);
             }
             

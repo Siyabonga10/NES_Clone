@@ -37,12 +37,16 @@ namespace _6502Clone
 
         // Timing stuff
         private int clocksTicks;
-        private const int CLOCK_TICKS_MAX = 12;
+        private const int CLOCK_TICKS_MAX = 4;
         private bool ready;
         private int required_clock_cycles;
 
+        // CPU power switch
+        private bool CPU_on;
+
         public CPU(ref ExternalBus bus, ref SysClock clock)
         {
+            CPU_on = true;
             required_clock_cycles = 0;
             clock.RegisterForTicks(Tick);
             ready = false;
@@ -630,7 +634,7 @@ namespace _6502Clone
         
         public void Run()
         {
-            while(true)
+            while(CPU_on)
             {
                 var instruction = DecodeNextInstruction();
                 ExecuteInstruction(instruction);
@@ -639,7 +643,7 @@ namespace _6502Clone
 
         public void RunTest()
         {
-            while (true)
+            while (CPU_on)
             {
                 if(ready)
                 {
@@ -675,6 +679,12 @@ namespace _6502Clone
             }
             
         }
+        public void KillCPU()
+        {
+            CPU_on = false;
+        }
+
     }
+
 
 }

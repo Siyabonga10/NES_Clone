@@ -11,7 +11,7 @@ namespace _6502Clone
             SysClock clock = new();
             CPU myCPU = new(ref myBus, ref clock);
             PPU myPPU = new(ref myBus, ref clock);
-            Catridge test = new("D:\\nes\\6502Clone\\test_roms\\11-special.nes", ref myBus);
+            Catridge test = new("D:\\nes\\6502Clone\\test_roms\\01-implied.nes", ref myBus);
             myCPU.Boot();
             Thread CPU_thread = new(myCPU.RunTest);
             Thread PPU_thread = new(() =>
@@ -23,9 +23,9 @@ namespace _6502Clone
             Timer_thread.Start();
             CPU_thread.Start();
             PPU_thread.Start();
-            CPU_thread.Join();
-            //clock.Finish();
-            //myPPU.Finish();
+            PPU_thread.Join();
+            clock.Finish();
+            myCPU.KillCPU();
             test.Finish();
         }
     }
