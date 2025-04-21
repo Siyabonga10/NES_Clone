@@ -1,2 +1,7 @@
 obj/
 bin/
+*.bin
+*.nes*
+*.nes
+.vs/*
+.vs/v17/
